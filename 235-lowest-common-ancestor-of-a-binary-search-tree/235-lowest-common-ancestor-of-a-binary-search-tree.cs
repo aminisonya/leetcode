@@ -10,22 +10,17 @@
 
 public class Solution {
     public TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        var pVal = p.val;
-		var qVal = q.val;
-		var curr = root;
+        var curr = root;
 		
-		while (curr != null)
+		if (p.val > curr.val && q.val > curr.val)
 		{
-			if (pVal > curr.val && qVal > curr.val)
-			{
-				curr = curr.right;
-			} else if (pVal < curr.val && qVal < curr.val)
-			{
-				curr = curr.left;
-			} else
-			{
-				return curr;
-			}
+			return LowestCommonAncestor(curr.right, p, q);
+		} else if (p.val < curr.val && q.val < curr.val)
+		{
+			return LowestCommonAncestor(curr.left, p, q);
+		} else 
+		{
+			return curr;
 		}
 		
 		return null;
