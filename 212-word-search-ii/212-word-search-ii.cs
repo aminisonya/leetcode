@@ -4,11 +4,6 @@ public class Solution {
             public TrieNode[] Next = new TrieNode[26];
             public String Word { get; set; }  // it is word, a string from root node to current char
 
-            /// <summary>
-            /// code review 
-            /// </summary>
-            /// <param name="words"></param>
-            /// <returns></returns>
             public TrieNode Build(String[] words)
             {
                 TrieNode root = new TrieNode();
@@ -40,24 +35,12 @@ public class Solution {
                 return Word != null; 
             }
 
-            /// <summary>
-            /// To avoid a word to be added more than once 
-            /// </summary>
             public void DeDuplicate()
             {
                 Word = null; 
             }
         }
 
-        /// <summary>
-        /// code review on June 15, 2020
-        /// The idea is to start from each char in the matrix to apply depth first search, backtracking is needed to 
-        /// reduce the space complexity, and also Trie is used to build from dictionary to make it more efficient to search 
-        /// if the prefix is in the dictionary. 
-        /// </summary>
-        /// <param name="board"></param>
-        /// <param name="words"></param>
-        /// <returns></returns>
         public IList<string> FindWords(char[][] board, string[] words)
         {
             var set = new HashSet<string>();
@@ -76,15 +59,6 @@ public class Solution {
             return set.ToList();
         }
 
-        /// <summary>
-        /// Depth first search algorithm
-        /// Design concern: apply backtracking to save space - using existing matrix to mark '#' as visited
-        /// </summary>
-        /// <param name="board"></param>
-        /// <param name="row"></param>
-        /// <param name="column"></param>
-        /// <param name="trie"></param>
-        /// <param name="found"></param>
         private static void applyDFS(char[][] board, int row, int column, TrieNode trie, HashSet<String> found)
         {
             // current char to visit           
