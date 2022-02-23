@@ -1,33 +1,37 @@
 public class Solution {
     public int[] TopKFrequent(int[] nums, int k) {
-        if (k == nums.Length)
+        // Using heap approach, there are 3 main steps
+		if (nums.Length == k)
 		{
 			return nums;
 		}
 		
-		var count = new Dictionary<int, int>();
+		// 1. Build dictionary with int + int's frequency
+		var dict = new Dictionary<int, int>();
 		for (var i = 0; i < nums.Length; i++)
 		{
-			if (count.ContainsKey(nums[i]))
+			if (dict.ContainsKey(nums[i]))
 			{
-				count[nums[i]] = count[nums[i]] + 1;
+				dict[nums[i]] = dict[nums[i]] + 1;
 			}
 			else
 			{
-				count.Add(nums[i], 1);
+				dict.Add(nums[i], 1);
 			}
 		}
 		
-		var heap = new PriorityQueue<int, int>(Comparer<int>.Create((x,y) => y.CompareTo(x)));
-		foreach (var key in count.Keys)
+		// 2. Create a priority queue, based on highest frequency to lowest
+		var pQueue = new PriorityQueue<int, int>(Comparer<int>.Create((x,y) => y.CompareTo(x)));
+		foreach (var key in dict.Keys)
 		{
-			heap.Enqueue(key, count[key]);
+			pQueue.Enqueue(key, dict[key]);
 		}
 		
+		// 3. Return an array with top k elements from priority queue
 		var result = new int[k];
-		for (var i = 0; i < result.Length; i++)
+		for (var i = 0; i < k; i++)
 		{
-			result[i] = heap.Dequeue();
+			result[i] = pQueue.Dequeue();
 		}
 		
 		return result;
