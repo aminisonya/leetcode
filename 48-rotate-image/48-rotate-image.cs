@@ -6,15 +6,16 @@ public class Solution {
 	
 	public void Transpose(int[][] matrix)
 	{
+		// Transpose by the diagonal
 		var n = matrix.Length;
 		
 		for (var i = 0; i < n; i++)
 		{
 			for (var j = i + 1; j < n; j++)
 			{
-				var temp = matrix[j][i];
-				matrix[j][i] = matrix[i][j];
-				matrix[i][j] = temp;
+				var temp = matrix[i][j];
+				matrix[i][j] = matrix[j][i];
+				matrix[j][i] = temp;
 			}
 		}
 	}
