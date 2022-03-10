@@ -12,45 +12,26 @@
  * }
  */
 public class Solution {
-    Stack<TreeNode> stack = new Stack<TreeNode>();
-	Stack<int?> lowerLimits = new Stack<int?>();
-	Stack<int?> upperLimits = new Stack<int?>();
-	
-	public bool IsValidBST(TreeNode root) {
-        int? low = null;
-		int? high = null;
-		int? val = null;
-		Update(root, low, high);
-		
-		while (stack.Count > 0)
-		{
-			root = stack.Pop();
-			low = lowerLimits.Pop();
-			high = upperLimits.Pop();
-			
-			if (root == null) continue;
-			
-			val = root.val;
-			if (low != null && val <= low)
-			{
-				return false;
-			}
-			if (high != null && val >= high)
-			{
-				return false;
-			}
-			
-			Update(root.right, val, high);
-			Update(root.left, low, val);
-		}
-		
-		return true;
+    public bool IsValidBST(TreeNode root) {
+        return Validate(root, null, null);
     }
-	
-	public void Update(TreeNode root, int? low, int? high)
-	{
-		stack.Push(root);
-		lowerLimits.Push(low);
-		upperLimits.Push(high);
-	}
+    
+    public bool Validate(TreeNode root, int? low, int? high)
+    {
+        // Empty trees are valid BSTs
+        if (root == null)
+        {
+            return true;
+        }
+        
+        // The current nodes value must be between low and high
+        if ((low != null && root.val <= low) || (high != null && root.val >= high))
+        {
+            return false;
+        }
+        
+        // The left and right subtree must also be valid
+        return Validate(root.left, low, root.val)
+            && Validate(root.right, root.val, high);
+    }
 }
