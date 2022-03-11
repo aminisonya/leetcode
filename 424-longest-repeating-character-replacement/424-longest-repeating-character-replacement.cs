@@ -7,22 +7,22 @@ public class Solution {
         
         // Array for all 26 letters
         var freq = new int[26];
-        var mostFreqLetter = 0;
-        var left = 0;
         var max = 0;
+        var left = 0;
+        var mostFrequentLetter = 0;
         
         for (var right = 0; right < s.Length; right++)
         {
             freq[s[right] - 'A']++;
-            mostFreqLetter = Math.Max(mostFreqLetter, freq[s[right] - 'A']);
+            mostFrequentLetter = Math.Max(mostFrequentLetter, freq[s[right] - 'A']);
             
             // As we "slide", we need to know how many letters in our substring we need to replace.
             // We do this by taking the size of the window minus the most frequent letter that is in that window.
-            var lettersToChange = (right - left + 1) - mostFreqLetter;
+            var lettersToReplace = (right - left + 1) - mostFrequentLetter;
             
             // Once we know how many letters need to be replaced, we can compare it to given int "k" and adjust window if necessary
             // If letters that need to be replaced is > k, we adjust our window
-            if (lettersToChange > k)
+            if (lettersToReplace > k)
             {
                 freq[s[left] - 'A']--;
                 left++;
