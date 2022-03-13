@@ -7,47 +7,32 @@ public class Solution {
             return result;
         }
         
-        // Create dictionary to store a character count string and a list for all strings that fit that character count
+        // Use a dictionary to store sorted string along with all unsorted strings that have the same sorted string value
         var dict = new Dictionary<string, List<string>>();
         
-        // Loop thru strings
         foreach (var str in strs)
         {
-            // We want to keep count of how many times each char appears in each string
+            // Convert to character array and SORT character array
             var chars = str.ToCharArray();
-            var charArr = new int[26];
+            Array.Sort(chars);
             
-            foreach (var c in chars)
+            // Create new string from sorted character array
+            var sortedStr = new string(chars);
+            
+            // If sorted string has not been added to dict yet, add it now
+            if (!dict.ContainsKey(sortedStr))
             {
-                // Subtract 'a' to get the ASCII number value for that character (for lowercase)
-                var curr = c - 'a';
-                charArr[curr]++;
+                dict.Add(sortedStr, new List<string>());
             }
             
-            // Translate the int array into a string to be used as a key in our dictionary later
-            var sb = new StringBuilder();
-            for (var i = 0; i < 26; i++)
-            {
-                sb.Append('#');
-                sb.Append(charArr[i]);
-            }
-            var strKey = sb.ToString();
-            
-            // Add if it doesn't already exist in our dictionary
-            if (!dict.ContainsKey(strKey))
-            {
-                dict.Add(strKey, new List<string>());
-            }
-            
-            // Add the current string from our list of strings to the dictionary
-            // All strings with the same character count will be added to the same key in the dict
-            dict[strKey].Add(str);
+            // Add original unsorted string to list of strings for that sorted string key
+            dict[sortedStr].Add(str);
         }
         
-        // Loop thru dictionary and add all values to result set
-        foreach (var item in dict.Keys)
+        // Loop thru dict and add all values to our result set
+        foreach (var key in dict.Keys)
         {
-            result.Add(dict[item]);
+            result.Add(dict[key]);
         }
         
         return result;
