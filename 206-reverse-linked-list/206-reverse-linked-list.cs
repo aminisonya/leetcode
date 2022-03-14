@@ -11,18 +11,22 @@
  */
 public class Solution {
     public ListNode ReverseList(ListNode head) {
-        //base case: we've reached last node, so head.next = null
         if (head == null || head.next == null)
         {
             return head;
         }
         
-        var node = ReverseList(head.next);
+        ListNode prev = null;
+        var curr = head;
         
-        var p = head.next;
-        p.next = head;
-        head.next = null;
+        while (curr != null)
+        {
+            var tempNext = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = tempNext;
+        }
         
-        return node;
+        return prev;
     }
 }
