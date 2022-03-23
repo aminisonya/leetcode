@@ -16,25 +16,25 @@ public class Solution {
         
         var dummy = new ListNode(0);
         dummy.next = head;
-        var firstP = dummy;
-        var secondP = dummy;
+        var fast = dummy;
+        var slow = dummy;
         
         // Iterate to get our first pointer ahead in the list by n nodes
         for (var i = 0; i <= n; i++)
         {
-            firstP = firstP.next;
+            fast = fast.next;
         }
         
         // Iterate until first pointer is at end of list
         // Meaning our second pointer is at node before node that needs to be removed
-        while (firstP != null)
+        while (fast != null)
         {
-            firstP = firstP.next;
-            secondP = secondP.next;
+            fast = fast.next;
+            slow = slow.next;
         }
         
         // Once our first and second pointers have been updated, update next pointer to skip over node that is to be removed
-        secondP.next = secondP.next.next;
+        slow.next = slow.next.next;
         
         // Return sentinel nodes next pointer, which is pointing at head of list
         return dummy.next;
