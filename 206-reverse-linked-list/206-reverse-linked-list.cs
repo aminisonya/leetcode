@@ -11,20 +11,19 @@
  */
 public class Solution {
     public ListNode ReverseList(ListNode head) {
-        if (head == null || head.next == null)
-        {
-            return head;
-        }
+        // Keep track of prev, curr, and temp next nodes
+        
+        if (head == null || head.next == null) return head;
         
         ListNode prev = null;
         var curr = head;
         
         while (curr != null)
         {
-            var tempNext = curr.next;
+            var next = curr.next;
             curr.next = prev;
             prev = curr;
-            curr = tempNext;
+            curr = next;
         }
         
         return prev;
