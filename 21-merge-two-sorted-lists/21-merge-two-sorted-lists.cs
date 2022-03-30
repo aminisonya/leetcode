@@ -16,27 +16,28 @@ public class Solution {
         // as you iterate, update next pointer for each of the nodes, while being careful not to lose track of the node that was originally next
         // use a dummy head node
         
-        var preHead = new ListNode(0);
-        var prev = preHead;
+        var dummy = new ListNode(0);
+        var curr = dummy;
         
         while (list1 != null && list2 != null)
         {
             if (list1.val <= list2.val)
             {
-                prev.next = list1;
+                curr.next = list1;
                 list1 = list1.next;
             }
             else if (list1.val > list2.val)
             {
-                prev.next = list2;
+                curr.next = list2;
                 list2 = list2.next;
             }
             
-            prev = prev.next;
+            curr = curr.next;
         }
         
-        prev.next = list1 == null ? list2 : list1;
+        if (list1 != null) curr.next = list1;
+        if (list2 != null) curr.next = list2;
         
-        return preHead.next;
+        return dummy.next;
     }
 }
