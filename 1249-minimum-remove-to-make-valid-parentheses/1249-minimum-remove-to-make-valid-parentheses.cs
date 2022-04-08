@@ -3,40 +3,44 @@ public class Solution {
         // Loop thru string
         // Add indexes of ( parans to stack
         // If ) and if nothing in stack, add to hashset. If gone thru string and still ( remaining in stack, add indexes to hashset
-        var indexesToRemove = new HashSet<int>();
+        // Build result string by not including chars at indexes in hashset
+        
         var stack = new Stack<int>();
+        var hashset = new HashSet<int>();
         
         for (var i = 0; i < s.Length; i++)
         {
-            if (s[i] == '(')
+            var c = s[i];
+            
+            if (c == '(')
             {
                 stack.Push(i);
             }
-            else if (s[i] == ')')
+            else if (c == ')')
             {
                 if (stack.Count <= 0)
                 {
-                    indexesToRemove.Add(i);
+                    hashset.Add(i);
                 }
                 else
                 {
                     stack.Pop();
                 }
-            }
+            }            
         }
         
         while (stack.Count > 0)
         {
-            indexesToRemove.Add(stack.Pop());
+            hashset.Add(stack.Pop());
         }
         
         var sb = new StringBuilder();
         
-        for (var i = 0; i < s.Length; i++)
+        for (var j = 0; j < s.Length; j++)
         {
-            if (!indexesToRemove.Contains(i))
+            if (!hashset.Contains(j))
             {
-                sb.Append(s[i]);
+                sb.Append(s[j]);
             }
         }
         
