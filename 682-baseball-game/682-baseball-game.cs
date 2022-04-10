@@ -18,10 +18,7 @@ public class Solution {
             else if (ops[i] == "D")
             {
                 // double prev score
-                var prev = stack.Pop();
-                var doublePrev = prev * 2;
-                stack.Push(prev);
-                stack.Push(doublePrev);
+                stack.Push(2 * stack.Peek());
             }
             else if (ops[i] == "C")
             {
