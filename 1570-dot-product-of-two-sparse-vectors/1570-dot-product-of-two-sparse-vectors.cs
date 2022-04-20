@@ -1,16 +1,14 @@
 public class SparseVector {
-    public int[] Vector;
     public Dictionary<int, int> NonZeroes;
     
     public SparseVector(int[] nums) {
-        this.Vector = nums;
         this.NonZeroes = new Dictionary<int, int>();
         
         for (var i = 0; i < nums.Length; i++)
         {
             if (nums[i] != 0)
             {
-                NonZeroes.Add(i, nums[i]);
+                this.NonZeroes.Add(i, nums[i]);
             }
         }
     }
@@ -19,11 +17,11 @@ public class SparseVector {
     public int DotProduct(SparseVector vec) {
         var dotProduct = 0;
         
-        for (var i = 0; i < vec.Vector.Length; i++)
+        foreach (var item in vec.NonZeroes)
         {
-            if (NonZeroes.ContainsKey(i))
+            if (item.Value != 0 && this.NonZeroes.ContainsKey(item.Key))
             {
-                dotProduct = dotProduct + (vec.Vector[i] * NonZeroes[i]);
+                dotProduct = dotProduct + (item.Value * this.NonZeroes[item.Key]);
             }
         }
         
