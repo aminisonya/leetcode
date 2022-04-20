@@ -1,14 +1,14 @@
 public class SparseVector {
-    public Dictionary<int, int> NonZeroes;
+    public List<int[]> Values;
     
     public SparseVector(int[] nums) {
-        this.NonZeroes = new Dictionary<int, int>();
+        this.Values = new List<int[]>();
         
         for (var i = 0; i < nums.Length; i++)
         {
             if (nums[i] != 0)
             {
-                this.NonZeroes.Add(i, nums[i]);
+                this.Values.Add(new int[] { i, nums[i] });
             }
         }
     }
@@ -16,12 +16,24 @@ public class SparseVector {
     // Return the dotProduct of two sparse vectors
     public int DotProduct(SparseVector vec) {
         var dotProduct = 0;
+        var i = 0;
+        var j = 0;
         
-        foreach (var item in vec.NonZeroes)
+        while (i < this.Values.Count && j < vec.Values.Count)
         {
-            if (item.Value != 0 && this.NonZeroes.ContainsKey(item.Key))
+            if (this.Values[i][0] == vec.Values[j][0])
             {
-                dotProduct = dotProduct + (item.Value * this.NonZeroes[item.Key]);
+                dotProduct += (this.Values[i][1] * vec.Values[j][1]);
+                i++;
+                j++;
+            }
+            else if (this.Values[i][0] < vec.Values[j][0])
+            {
+                i++;
+            }
+            else
+            {
+                j++;
             }
         }
         
