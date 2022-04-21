@@ -11,33 +11,33 @@
  *     }
  * }
  */
-public class Solution {
+public class Solution {    
     public int RangeSumBST(TreeNode root, int low, int high) {
-        // DFS using a Stack. Iterative approach. Preorder: root, left, right
-        // Pop off stack, check current nodes value. Add values to overall sum if between low and high vals
-        // If curr > low, add left child. If curr < high, add right child.
+        // Recursion + DFS
+        // Without class level variable, to keep code thread safe
         
-        var sum = 0;
-        var stack = new Stack<TreeNode>();
-        stack.Push(root);
+        var sum = DFS(root, low, high, 0);
         
-        while (stack.Count > 0)
+        return sum;
+    }
+    
+    public int DFS(TreeNode root, int low, int high, int sum)
+    {
+        if (root != null)
         {
-            var curr = stack.Pop();
-            
-            if (curr.val >= low && curr.val <= high)
+            if (root.val >= low && root.val <= high)
             {
-                sum += curr.val;
+                sum += root.val;
             }
             
-            if (curr.val > low && curr.left != null)
+            if (root.val > low)
             {
-                stack.Push(curr.left);
+                sum = DFS(root.left, low, high, sum);
             }
             
-            if (curr.val < high && curr.right != null)
+            if (root.val < high)
             {
-                stack.Push(curr.right);
+                sum = DFS(root.right, low, high, sum);
             }
         }
         
