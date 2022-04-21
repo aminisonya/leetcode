@@ -13,9 +13,9 @@
  */
 public class Solution {
     public int RangeSumBST(TreeNode root, int low, int high) {
-        // DFS - preorder: root, left, right
-        // Check each node value, only continue when higher than low or lower than high
-        // Add values to overall sum
+        // DFS using a Stack. Iterative approach. Preorder: root, left, right
+        // Pop off stack, check current nodes value. Add values to overall sum if between low and high vals
+        // If curr > low, add left child. If curr < high, add right child.
         
         var sum = 0;
         var stack = new Stack<TreeNode>();
@@ -27,16 +27,15 @@ public class Solution {
             
             if (curr.val >= low && curr.val <= high)
             {
-                Console.WriteLine(curr.val);
                 sum += curr.val;
             }
             
-            if (curr.left != null)
+            if (curr.val > low && curr.left != null)
             {
                 stack.Push(curr.left);
             }
             
-            if (curr.right != null)
+            if (curr.val < high && curr.right != null)
             {
                 stack.Push(curr.right);
             }
