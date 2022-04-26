@@ -7,8 +7,8 @@ public class Solution {
         
         // Array for all 26 letters
         var freq = new int[26];
-        var max = 0;
         var left = 0;
+        var max = 0;
         var mostFrequentLetter = 0;
         
         for (var right = 0; right < s.Length; right++)
@@ -29,7 +29,7 @@ public class Solution {
             }
             
             // Get max between current window and previous max value
-            max = Math.Max(max, right - left + 1);
+            max = Math.Max(max, (right - left + 1));    
         }
         
         return max;
