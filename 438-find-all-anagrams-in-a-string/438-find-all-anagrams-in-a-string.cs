@@ -7,17 +7,13 @@ public class Solution {
             return result;
         }
         
-        // Initialize two char arrays for each string
-        // And values for starting window (length of p)
         var sChars = new int[26];
         var pChars = new int[26];
         for (var i = 0; i < p.Length; i++)
         {
             pChars[p[i] - 'a']++;
         }
-                
-        // Sliding window
-        var left = 0;        
+        
         for (var right = 0; right < s.Length; right++)
         {
             sChars[s[right] - 'a']++;
@@ -27,7 +23,7 @@ public class Solution {
                 sChars[s[right - p.Length] - 'a']--;
             }
             
-            if (IsEqual(sChars, pChars))
+            if (AreEqual(sChars, pChars))
             {
                 result.Add(right - p.Length + 1);
             }
@@ -36,7 +32,7 @@ public class Solution {
         return result;
     }
     
-    private bool IsEqual(int[] one, int[] two)
+    private bool AreEqual(int[] one, int[] two)
     {
         for (var i = 0; i < one.Length; i++)
         {
@@ -45,6 +41,7 @@ public class Solution {
                 return false;
             }
         }
+        
         return true;
     }
 }
