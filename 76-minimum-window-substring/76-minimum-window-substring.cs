@@ -1,80 +1,73 @@
 public class Solution {
     public string MinWindow(string s, string t) {
-        // Sliding window
+        // Sliding window approach
+        // Use dict for chars from t (smaller string)
+        // Slide thru s, searching for all chars from t
+        // Keep track of each window size, updating for MIN window size each time valid window is found
+        // Window expands to the right when window isn't valid. When window is valid, contract left side until no longer valid.
         
-        if (s.Length == 0 || t.Length == 0)
-        {
-            return "";
-        }
-        
-        // Create dictionary to keep track of unique characters in t, and count of each character
-        var dictT = new Dictionary<char, int>();
+        var dict = new Dictionary<char, int>(); // char as key : number of occurrences as value
         for (var i = 0; i < t.Length; i++)
         {
-            if (!dictT.ContainsKey(t[i]))
+            if (!dict.ContainsKey(t[i]))
             {
-                dictT.Add(t[i], 1);
+                dict.Add(t[i], 1);
             }
             else
             {
-                dictT[t[i]]++;
-            }
+                dict[t[i]]++;
+            }            
         }
+        var counter = dict.Count;
         
-        // Initialize sliding window vars
-        var counter = dictT.Count;
+        var minSize = Int32.MaxValue;
+        var strIndexes = new int[2];
         var left = 0;
         var right = 0;
-        var len = int.MaxValue; // This will keep track of our current minimum window
-        
         var answer = "";
         
-        // Sliding window
         while (right < s.Length)
         {
-            var c = s[right];
-            
-            // If current char is found in t dict, decrement count
-            if (dictT.ContainsKey(c))
+            if (dict.ContainsKey(s[right]))
             {
-                dictT[c]--;
-                if (dictT[c] == 0)
+                dict[s[right]]--;
+                
+                if (dict[s[right]] == 0)
                 {
-                    // Once we've found all instances of a certain character in our window
-                    // We can decrement our counter of unique letters
                     counter--;
                 }
             }
             
             right++;
             
-            // Once we've found a window with all characters from our substring...
             while (counter == 0)
             {
-                // Update minimum window length and answer
-                if (right - left < len)
+                if (right - left < minSize)
                 {
-                    len = right - left;
-                    answer = s.Substring(left, right - left);
+                    minSize = right - left;
+                    strIndexes[0] = left;
+                    strIndexes[1] = right;
                 }
                 
-                var startChar = s[left];
-                
-                // After we've found a minimum substring
-                // We adjust our left pointer to move on to find new possible min windows
-                if (dictT.ContainsKey(startChar))
+                if (dict.ContainsKey(s[left]))
                 {
-                    dictT[startChar]++;
-                    if (dictT[startChar] > 0)
+                    dict[s[left]]++;
+                    
+                    if (dict[s[left]] > 0)
                     {
                         counter++;
                     }
                 }
-                
-                left++;
+                left++; 
             }
         }
         
-        return answer;
+        var strBuilder = new StringBuilder();
+        for (var i = strIndexes[0]; i < strIndexes[1]; i++)
+        {
+            strBuilder.Append(s[i]);
+        }
+        
+        return strBuilder.ToString();
     }
 }
