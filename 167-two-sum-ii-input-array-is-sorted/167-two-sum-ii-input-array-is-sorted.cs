@@ -1,6 +1,6 @@
 public class Solution {
     public int[] TwoSum(int[] numbers, int target) {
-        var result = new int[2];
+        var answer = new int[2];
         
         // left and right pointers
         var left = 0;
@@ -12,9 +12,9 @@ public class Solution {
             
             if (sum == target)
             {
-                result[0] = left + 1;
-                result[1] = right + 1;
-                return result;
+                answer[0] = left + 1;
+                answer[1] = right + 1;
+                return answer;
             }
             
             if (sum > target)
@@ -27,6 +27,6 @@ public class Solution {
             }
         }
         
-        return result;
+        return answer;
     }
 }
