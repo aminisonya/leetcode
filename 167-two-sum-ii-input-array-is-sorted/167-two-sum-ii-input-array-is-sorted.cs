@@ -1,32 +1,32 @@
 public class Solution {
     public int[] TwoSum(int[] numbers, int target) {
-        var answer = new int[2];
+        // Two pointer technique. Opposite directional pointers.
+        // Only one possible solution
         
-        // left and right pointers
         var left = 0;
         var right = numbers.Length - 1;
+        var result = new int[2];
         
-        while (left < right)
+        for (var i = 0; i < numbers.Length; i++)
         {
-            var sum = numbers[left] + numbers[right];
+            var currSum = numbers[left] + numbers[right];
             
-            if (sum == target)
-            {
-                answer[0] = left + 1;
-                answer[1] = right + 1;
-                return answer;
-            }
-            
-            if (sum > target)
+            if (currSum > target)
             {
                 right--;
             }
-            else if (sum < target)
+            else if (currSum < target)
             {
                 left++;
             }
+            else if (currSum == target)
+            {
+                result[0] = left + 1;
+                result[1] = right + 1;
+                return result;
+            }
         }
         
-        return answer;
+        return result;
     }
 }
