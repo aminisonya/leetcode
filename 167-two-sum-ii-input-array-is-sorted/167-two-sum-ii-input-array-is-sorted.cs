@@ -1,13 +1,14 @@
 public class Solution {
     public int[] TwoSum(int[] numbers, int target) {
-        // Two pointer technique. Opposite directional pointers.
+        // Twist on TwoSum
+        // Two pointers. Opposite directional.
         // Only one possible solution
         
+        var answer = new int[2];
         var left = 0;
         var right = numbers.Length - 1;
-        var result = new int[2];
         
-        for (var i = 0; i < numbers.Length; i++)
+        while (left < right)
         {
             var currSum = numbers[left] + numbers[right];
             
@@ -21,12 +22,12 @@ public class Solution {
             }
             else if (currSum == target)
             {
-                result[0] = left + 1;
-                result[1] = right + 1;
-                return result;
+                answer[0] = left + 1;
+                answer[1] = right + 1;
+                return answer;
             }
         }
         
-        return result;
+        return answer;
     }
 }
