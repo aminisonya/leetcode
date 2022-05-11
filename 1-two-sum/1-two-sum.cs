@@ -1,8 +1,11 @@
 public class Solution {
     public int[] TwoSum(int[] nums, int target) {
-        var result = new int[2];
-        var dict = new Dictionary<int, int>(); // number : index
+        // dictionary for values
+        // two pass thrus of nums array
         
+        var result = new int[2];
+        
+        var dict = new Dictionary<int, int>(); // number : index
         for (var i = 0; i < nums.Length; i++)
         {
             if (!dict.ContainsKey(nums[i]))
@@ -13,12 +16,12 @@ public class Solution {
         
         for (var i = 0; i < nums.Length; i++)
         {
-            var temp = target - nums[i];
-            
-            if (dict.ContainsKey(temp) && dict[temp] != i)
+            var currTarget = target - nums[i];
+            if (dict.ContainsKey(currTarget) && i != dict[currTarget])
             {
-                result[0] = dict[temp];
-                result[1] = i;
+                result[0] = i;
+                result[1] = dict[currTarget];
+                return result;
             }
         }
         
