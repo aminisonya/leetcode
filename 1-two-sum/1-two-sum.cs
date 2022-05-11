@@ -12,10 +12,7 @@ public class Solution {
             {
                 dict.Add(nums[i], i);
             }
-        }
-        
-        for (var i = 0; i < nums.Length; i++)
-        {
+            
             var currTarget = target - nums[i];
             if (dict.ContainsKey(currTarget) && i != dict[currTarget])
             {
@@ -24,6 +21,17 @@ public class Solution {
                 return result;
             }
         }
+        
+        // for (var i = 0; i < nums.Length; i++)
+        // {
+        //     var currTarget = target - nums[i];
+        //     if (dict.ContainsKey(currTarget) && i != dict[currTarget])
+        //     {
+        //         result[0] = i;
+        //         result[1] = dict[currTarget];
+        //         return result;
+        //     }
+        // }
         
         return result;
     }
