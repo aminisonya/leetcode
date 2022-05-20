@@ -1,37 +1,35 @@
 public class Solution {
     public bool IsAnagram(string s, string t) {
-        // Build dictionary of chars from "s" + times it appears
-        // Loop thru "t" and check if all characters are in "s"
-        // If any remaining chars weren't used, return false
+        // dictionary or char array approach
+        // loop thru s, build up char array and use count variable to keep track of matches
+        // if find a mismatch, return false
         
         if (s.Length != t.Length)
         {
             return false;
         }
         
-        var dict = new Dictionary<char, int>();
-        
-        foreach (var cha in s)
+        var charArr = new int[26];
+        var count = 0;
+        for (var i = 0; i < s.Length; i++)
         {
-            if (!dict.ContainsKey(cha))
-            {
-                dict.Add(cha, 1);
-            }
-            else
-            {
-                dict[cha]++;
-            }
+            charArr[s[i] - 'a']++;
+            count++;
         }
         
-        foreach (var cha in t)
+        for (var i = 0; i < t.Length; i++)
         {
-            if (!dict.ContainsKey(cha) || dict[cha] == 0)
+            if (charArr[t[i] - 'a'] <= 0)
             {
                 return false;
             }
-            dict[cha]--;
+            else
+            {
+                charArr[t[i] - 'a']--;
+                count--;
+            }
         }
         
-        return true;
+        return (count == 0);
     }
 }
