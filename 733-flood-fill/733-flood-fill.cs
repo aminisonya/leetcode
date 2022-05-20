@@ -1,30 +1,27 @@
 public class Solution {
     public int[][] FloodFill(int[][] image, int sr, int sc, int newColor) {
-        // Get color of first pixel to be changed
-        // Search 4 neighboring pixels for that value
-        // If same value, change to new value and search those 4 neighbors as well
-        // Make sure to stay within bounds of matrix
-        // Follow DFS strategy
+        // Change current square's value if matches original color value
+        // Go in order to search for next possible square to change (up right down left)
+        // Recursion on neighboring pixels
+        // Base case: make sure are in bounds still
         
         var oldColor = image[sr][sc];
-        
         if (oldColor != newColor)
         {
-            ReplaceOldColor(image, sr, sc, oldColor, newColor);
+            ChangeColor(image, sr, sc, oldColor, newColor);
         }
-        
-        return image;
+        return image;      
     }
     
-    public void ReplaceOldColor(int[][] image, int row, int col, int oldColor, int newColor)
+    public void ChangeColor(int[][] image, int row, int col, int oldColor, int newColor)
     {
-        // Check if we're in bounds still
-        if (row < 0 || col < 0 || row > image.Length - 1 || col > image[0].Length - 1)
+        // Check if we're in bounds of array
+        if (row < 0 || row > image.Length - 1 || col < 0 || col > image[0].Length - 1)
         {
             return;
         }
         
-        // Check if color needs to be updated
+        // Check if color needs to be changed
         if (image[row][col] != oldColor)
         {
             return;
@@ -34,12 +31,12 @@ public class Solution {
         image[row][col] = newColor;
         
         // If does need to be updated, DFS on neighbors
-        var rows = new int[4] {-1, 0, 1, 0};
-        var cols = new int[4] {0, 1, 0, -1};
+        var rows = new int[4] {0,0,1,-1};
+        var cols = new int[4] {1,-1,0,0};
         
         for (var i = 0; i < 4; i++)
         {
-            ReplaceOldColor(image, row + rows[i], col + cols[i], oldColor, newColor);
+            ChangeColor(image, row + rows[i], col + cols[i], oldColor, newColor);
         }
     }
 }
