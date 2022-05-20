@@ -1,11 +1,11 @@
 public class Solution {
     public int[] TwoSum(int[] nums, int target) {
-        // dictionary for values
-        // two pass thrus of nums array
-        
-        var result = new int[2];
+        // Dictionary
+        // Two pass thrus
         
         var dict = new Dictionary<int, int>(); // number : index
+        var result = new int[2];
+        
         for (var i = 0; i < nums.Length; i++)
         {
             if (!dict.ContainsKey(nums[i]))
@@ -14,24 +14,13 @@ public class Solution {
             }
             
             var currTarget = target - nums[i];
-            if (dict.ContainsKey(currTarget) && i != dict[currTarget])
+            
+            if (dict.ContainsKey(currTarget) && dict[currTarget] != i)
             {
                 result[0] = i;
                 result[1] = dict[currTarget];
-                return result;
             }
         }
-        
-        // for (var i = 0; i < nums.Length; i++)
-        // {
-        //     var currTarget = target - nums[i];
-        //     if (dict.ContainsKey(currTarget) && i != dict[currTarget])
-        //     {
-        //         result[0] = i;
-        //         result[1] = dict[currTarget];
-        //         return result;
-        //     }
-        // }
         
         return result;
     }
