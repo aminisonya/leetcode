@@ -13,25 +13,34 @@
  */
 public class Solution {
     public TreeNode InvertTree(TreeNode root) {
+        // BFS + Queue
+        // Row by row, swap left and right children of each node
+        // When no children, continue
+        
         if (root == null)
-		{
-			return null;
-		}
-		
-		var queue = new Queue<TreeNode>();
-		queue.Enqueue(root);
-		
-		while (queue.Count > 0)
-		{
-			var curr = queue.Dequeue();
-			var temp = curr.left;
-			curr.left = curr.right;
-			curr.right = temp;
-			
-			if (curr.left != null) queue.Enqueue(curr.left);
-			if (curr.right != null) queue.Enqueue(curr.right);
-		}
-		
-		return root;
+        {
+            return root;
+        }
+        
+        var queue = new Queue<TreeNode>();
+        queue.Enqueue(root);
+        
+        while (queue.Count > 0)
+        {
+            var curr = queue.Dequeue();
+            
+            if (curr.left != null || curr.right != null)
+            {
+                // swap the child nodes, then add to queue
+                var temp = curr.left;
+                curr.left = curr.right;
+                curr.right = temp;
+                
+                if (curr.left != null) queue.Enqueue(curr.left);
+                if (curr.right != null) queue.Enqueue(curr.right);
+            }
+        }
+        
+        return root;
     }
 }
