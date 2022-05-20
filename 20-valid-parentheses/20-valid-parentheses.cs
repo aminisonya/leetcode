@@ -1,15 +1,17 @@
 public class Solution {
     public bool IsValid(string s) {
-        // If open parantheses, push on to stack
-        // If close parantheses, pop off stack and check if matches last open parantheses
+        // Use a Stack
+        // If else chain statements
+        // Add open brackets to stack
+        // when see a close bracket check stack for matching open bracket, pop it off stack or return false
         
         var stack = new Stack<char>();
         
-        foreach (var p in s)
+        for (var i = 0; i < s.Length; i++)
         {
-            if (p == '(' || p == '{' || p == '[')
+            if (s[i] == '(' || s[i] == '{' || s[i] == '[')
             {
-                stack.Push(p);
+                stack.Push(s[i]);
             }
             else
             {
@@ -18,28 +20,23 @@ public class Solution {
                     return false;
                 }
                 
-                var lastP = stack.Pop();
+                var curr = stack.Pop();
                 
-                if (lastP == '(' && p != ')')
+                if (s[i] == ')' && curr != '(')
                 {
                     return false;
                 }
-                else if (lastP == '{' && p != '}')
+                else if (s[i] == '}' && curr != '{')
                 {
                     return false;
                 }
-                else if (lastP == '[' && p != ']')
+                else if (s[i] == ']' && curr != '[')
                 {
                     return false;
                 }
             }
         }
         
-        if (stack.Count != 0)
-        {
-            return false;
-        }
-        
-        return true;
+        return stack.Count == 0 ? true : false;
     }
 }
