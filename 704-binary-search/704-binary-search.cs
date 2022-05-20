@@ -1,28 +1,28 @@
 public class Solution {
     public int Search(int[] nums, int target) {
-        // Binary search to find target
+        // Binary search O(log n)
+        // array is already sorted
         
         var left = 0;
         var right = nums.Length - 1;
         
         while (left <= right)
         {
-            var midpoint = right - left / 2;
+            var mid = right - left / 2;
             
-            if (nums[midpoint] == target)
+            if (nums[mid] > target)
             {
-                return midpoint;
+                // mid - 1 because we're searching to the left
+                right = mid - 1;
             }
-            
-            if (nums[midpoint] > target)
+            else if (nums[mid] < target)
             {
-                // Want to search the left half
-                right = midpoint - 1;
+                // mid + 1 bc we're searching to the right
+                left = mid + 1;
             }
-            else
+            else if (nums[mid] == target)
             {
-                // Want to search the right half
-                left = midpoint + 1;
+                return mid;
             }
         }
         
