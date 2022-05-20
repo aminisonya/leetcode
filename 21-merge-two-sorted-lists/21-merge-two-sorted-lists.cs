@@ -11,10 +11,10 @@
  */
 public class Solution {
     public ListNode MergeTwoLists(ListNode list1, ListNode list2) {
-        // keep track of two heads
-        // iterate thru both lists
-        // as you iterate, update next pointer for each of the nodes, while being careful not to lose track of the node that was originally next
-        // use a dummy head node
+        // dummy head node
+        // compare heads of each list, smaller one gets pointed to for next
+        // while loop while either head isn't null
+        // if one list has already been merged (one head is null), merge rest of remaining list to end
         
         var dummy = new ListNode(0);
         var curr = dummy;
@@ -26,7 +26,7 @@ public class Solution {
                 curr.next = list1;
                 list1 = list1.next;
             }
-            else if (list1.val > list2.val)
+            else
             {
                 curr.next = list2;
                 list2 = list2.next;
@@ -35,8 +35,7 @@ public class Solution {
             curr = curr.next;
         }
         
-        if (list1 != null) curr.next = list1;
-        if (list2 != null) curr.next = list2;
+        curr.next = list1 == null ? list2 : list1;
         
         return dummy.next;
     }
