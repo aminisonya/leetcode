@@ -10,16 +10,14 @@ public class Solution {
         
         while (left < right)
         {
-            if (left < s.Length && !Char.IsLetterOrDigit(s[left]))
+            while (left < right && !Char.IsLetterOrDigit(s[left]))
             {
                 left++;
-                continue;
             }
             
-            if (right >= 0 && !Char.IsLetterOrDigit(s[right]))
+            while (right > left && !Char.IsLetterOrDigit(s[right]))
             {
                 right--;
-                continue;
             }
             
             if (Char.ToLower(s[left]) != Char.ToLower(s[right]))
