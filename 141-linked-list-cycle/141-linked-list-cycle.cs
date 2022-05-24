@@ -11,9 +11,7 @@
  */
 public class Solution {
     public bool HasCycle(ListNode head) {
-        // Tortoise and Hare approach
-        // two pointers, one going twice as fast
-        // if they meet, there's a cycle
+        // tortoise and hare : slow and fast pointer to detect cycle in linked list
         
         if (head == null)
         {
@@ -23,17 +21,22 @@ public class Solution {
         var slow = head;
         var fast = head.next;
         
-        while (slow != fast)
+        while (slow != null && fast != null)
         {
-            if (fast == null || fast.next == null)
+            if (fast.next == null)
             {
                 return false;
+            }
+            
+            if (slow == fast)
+            {
+                return true;
             }
             
             slow = slow.next;
             fast = fast.next.next;
         }
         
-        return true;
+        return false;
     }
 }
