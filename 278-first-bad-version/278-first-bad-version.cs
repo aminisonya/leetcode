@@ -3,28 +3,28 @@
 
 public class Solution : VersionControl {
     public int FirstBadVersion(int n) {
-        // Binary search
-        // Looking for first bad version, and last good version (to verify)
-        var lastGood = 1;
-        var firstBad = n;
+        // binary search
+        // if false, search to the right. if true, search to the left.
         
-        while (lastGood < firstBad)
+        var left = 1;
+        var right = n;
+        var firstBadVersion = 0;
+        
+        while (left < right)
         {
-            var midpoint = lastGood + (firstBad - lastGood) / 2;
-            var isBad = IsBadVersion(midpoint);
+            var mid = left + (right - left) / 2;
             
-            if (isBad)
+            if (IsBadVersion(mid) == true)
             {
-                // If midpoint is bad version, want to keep searching the left half
-                firstBad = midpoint;
+                firstBadVersion = mid + 1;
+                right = mid;
             }
-            else if (!isBad)
+            else
             {
-                // If midpoint is NOT bad version, want to search the right half
-                lastGood = midpoint + 1;
+                left = mid + 1;
             }
         }
         
-        return firstBad;
+        return left;
     }
 }
