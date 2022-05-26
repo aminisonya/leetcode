@@ -1,12 +1,14 @@
 public class Solution {
     public int ClimbStairs(int n) {
-        // Similar to fibonacci
-        // Can use DP and memoization
-        var arr = new int[n + 1];
-        return Climb(0, n, arr);
+        // either +1 or +2 each step
+        // Use memoization to store calculation results
+        // DP problem
+        
+        var memo = new int[n + 1];
+        return ClimbHelper(0, n, memo);
     }
     
-    public int Climb(int i, int n, int[] arr)
+    public int ClimbHelper(int i, int n, int[] memo)
     {
         if (i > n)
         {
@@ -18,14 +20,13 @@ public class Solution {
             return 1;
         }
         
-        if (arr[i] > 0)
+        if (memo[i] > 0)
         {
-            return arr[i];
+            return memo[i];
         }
-        else
-        {
-            arr[i] = Climb(i + 1, n, arr) + Climb(i + 2, n, arr);
-            return arr[i];
-        }
+        
+        memo[i] = ClimbHelper(i + 1, n, memo) + ClimbHelper(i + 2, n, memo);
+        
+        return memo[i];
     }
 }
