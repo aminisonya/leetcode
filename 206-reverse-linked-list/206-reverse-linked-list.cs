@@ -11,12 +11,8 @@
  */
 public class Solution {
     public ListNode ReverseList(ListNode head) {
-        // Keep track of prev, curr, and temp next nodes
-        
-        if (head == null || head.next == null) return head;
-        
-        ListNode prev = null;
         var curr = head;
+        ListNode prev = null;
         
         while (curr != null)
         {
