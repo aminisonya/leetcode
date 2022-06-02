@@ -1,23 +1,29 @@
 public class Solution {
     public int MajorityElement(int[] nums) {
-        var n = nums.Length;
-        var dict = new Dictionary<int, int>(); // number : num of occurrences
+        // Boyer-Moore Voting Algorithm
+        // Keep count of current majority candidate. If see a num that is not majority candidate, minus one from count.
+        // Once count reaches 0, reset majority candidate to next candidate, and repeat
+        
+        var count = 0;
+        var candidate = nums[0]; // starting with first item in array as first candidate
         
         for (var i = 0; i < nums.Length; i++)
         {
-            if (!dict.ContainsKey(nums[i]))
+            if (count == 0)
             {
-                dict.Add(nums[i], 0);
+                candidate = nums[i];
             }
             
-            dict[nums[i]]++;
-            
-            if (dict[nums[i]] > (n / 2))
+            if (nums[i] == candidate)
             {
-                return nums[i];
+                count++;
+            }
+            else if (nums[i] != candidate)
+            {
+                count--;
             }
         }
         
-        return -1;
+        return candidate;
     }
 }
