@@ -11,6 +11,9 @@
  */
 public class Solution {
     public ListNode MiddleNode(ListNode head) {
+        // Two pointer : slow and fast
+        // When fast pointer reaches end of list, return slow pointer
+        
         var slow = head;
         var fast = head;
         
