@@ -12,10 +12,13 @@
  * }
  */
 public class Solution {
+    
     private int diameter;
+    
     public int DiameterOfBinaryTree(TreeNode root) {
-        // Longest path has to be between two leaf nodes
-        // Recursion + DFS
+        // Find longest path between two nodes
+        // Must be leaf nodes
+        // Use Recursion and DFS to find longest paths of each node
         
         diameter = 0;
         LongestPath(root);
@@ -33,8 +36,13 @@ public class Solution {
         var leftPath = LongestPath(node.left);
         var rightPath = LongestPath(node.right);
         
-        diameter = Math.Max(diameter, leftPath + rightPath);
+        // If found a greater diameter, replace diameter value
+        if (leftPath + rightPath > diameter)
+        {
+            diameter = leftPath + rightPath;
+        }
         
-        return Math.Max(leftPath, rightPath) + 1;
+        // Add 1 before returning
+        return leftPath > rightPath ? leftPath + 1 : rightPath + 1;
     }
 }
