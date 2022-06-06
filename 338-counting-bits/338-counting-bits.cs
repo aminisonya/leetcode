@@ -1,22 +1,23 @@
 public class Solution {
     public int[] CountBits(int n) {
+        // can use prev calculated values to get current values
+        // any even number will have same number of ones as that number divided by 2
+        // an odd number will have same number of ones as that odd number divided by 2, plus 1
+        
         var result = new int[n + 1];
-
-        // For each integer i, how many 1's are in the binary representation of i?
-        for (var i = 0; i < n + 1; i++)
+        
+        for (var i = 0; i <= n; i++)
         {
-          // If i is an even number, the number of 1's is equal to i / 2
-          // If i is odd, the number of '1's is i / 2 + 1
-          if (i % 2 == 0)
-          {
-            result[i] = result[i/2];
-          }
-          else
-          {
-            result[i] = result[i/2] + 1;
-          }
+            if (i % 2 == 0)
+            {
+                result[i] = result[i/2];
+            }
+            else
+            {
+                result[i] = result[i/2] + 1;
+            }
         }
-
+        
         return result;
     }
 }
