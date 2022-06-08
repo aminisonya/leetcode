@@ -1,60 +1,67 @@
 public class Solution {
     public int[][] UpdateMatrix(int[][] mat) {
-        // Traverse entire matrix + Create new matrix with values of distance
-        // Use DP, split into two passes of matrix
-        // Can use prev calculated distances of neighbor cells to calculate current distance
-        // Need to check all 4 directions, split this into two: top/left and bottom/right
+        // Find distance of nearest 0 for each cell
+        // BFS + Queue
+        // Queue will contain cells to be examined next
+        // Add all cells with 0s to q
+        // Pop cell from q, examine neighbors. If new distance for neighbor is smaller (orig set as int max), add to q.
         
-        if (mat == null || mat.Length == 0)
+        var rows = mat.Length;
+        var cols = mat[0].Length;
+        var result = new int[rows][];
+        var queue = new Queue<(int, int)>();
+        var visited = new HashSet<(int, int)>();
+        
+        // Enqueue all squares with 0's
+        // Add those squares to visited hashset
+        for (var i = 0; i < rows; i++)
         {
-            return mat;
+            for (var j = 0; j < cols; j++)
+            {
+                if (mat[i][j] == 0)
+                {
+                    queue.Enqueue((i, j));
+                    visited.Add((i, j));
+                }
+            }
         }
         
-        var result = new int[mat.Length][];
+        // Directions to iterate thru for each cell
+        var r = new int[] { 0, 1, 0, -1 };
+        var c = new int[] { 1, 0, -1, 0 };
         
-        // First pass: check for left and top
-        for (var row = 0; row < mat.Length; row++)
+        // level to keep track of distance from nearest 0
+        var level = 0;
+        while (queue.Count > 0)
         {
-            result[row] = new int[mat[row].Length];
+            var size = queue.Count;
+            level++;
             
-            for (var col = 0; col < result[row].Length; col++)
+            while (size > 0)
             {
-                result[row][col] = Int32.MaxValue - 100000;
+                size--;
                 
-                if (mat[row][col] == 0)
+                var curr = queue.Dequeue();
+                
+                for (var d = 0; d < 4; d++)
                 {
-                    result[row][col] = 0;
-                }
-                else
-                {
-                    if (row > 0)
+                    var newi = curr.Item1 + r[d];
+                    var newj = curr.Item2 + c[d];
+                    
+                    if (newi < 0 || newj < 0 || newi >= rows || newj >= cols || visited.Contains((newi, newj)))
                     {
-                        result[row][col] = Math.Min(result[row][col], result[row - 1][col] + 1);
+                        continue;
                     }
-                    if (col > 0)
-                    {
-                        result[row][col] = Math.Min(result[row][col], result[row][col - 1] + 1);
-                    }
+                    
+                    // Set distance (level) of current cell from nearest 0
+                    // And add to queue and visited hashset
+                    queue.Enqueue((newi, newj));
+                    visited.Add((newi, newj));
+                    mat[newi][newj] = level;
                 }
             }
         }
         
-        // Second pass: check for bottom and right
-        for (var i = mat.Length - 1; i >= 0; i--)
-        {
-            for (var j = mat[0].Length - 1; j >= 0; j--)
-            {
-                if (i < mat.Length - 1)
-                {
-                    result[i][j] = Math.Min(result[i][j], result[i + 1][j] + 1);
-                }
-                if (j < mat[0].Length - 1)
-                {
-                    result[i][j] = Math.Min(result[i][j], result[i][j + 1] + 1);
-                }
-            }
-        }
-        
-        return result;
+        return mat;
     }
 }
