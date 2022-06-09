@@ -23,33 +23,33 @@ public class Node {
 
 public class Solution {
     public Node CloneGraph(Node node) {
-        // DFS + Recursion
-		// Create dictionary to keep track of visited nodes
-        var dict = new Dictionary<Node, Node>();
-		return Clone(node, dict);
+        // DFS + Recursion. Hashset to keep track of visited nodes
+        
+        var dict = new Dictionary<Node, Node>(); // original : clone
+        return Clone(node, dict);
     }
-	
-	private Node Clone(Node node, Dictionary<Node, Node> dict)
-	{
-		if (node == null)
-		{
-			return null;
-		}
-		
-		// Check if node has NOT already been visited
-		if (!dict.ContainsKey(node))
-		{
-			// Add node + clone of node to mark it as visited
-			dict.Add(node, new Node(node.val));
-			
-			// Clone neighboring nodes by iterating thru them
-			// Add cloned nodes to list of neighbors as you go
-			foreach (var n in node.neighbors)
-			{
-				dict[node].neighbors.Add(Clone(n, dict));
-			}
-		}
-		
-		return dict[node];
-	}
+    
+    private Node Clone(Node node, Dictionary<Node, Node> dict)
+    {
+        // Base case
+        if (node == null)
+        {
+            return null;
+        }
+        
+        // Check if in dict. If not, add it and its clone
+        // Don't want to revisit a node that's already been visited
+        if (!dict.ContainsKey(node))
+        {
+            var clone = new Node(node.val);
+            dict.Add(node, clone);            
+            
+            foreach (var neighbor in node.neighbors)
+            {
+                clone.neighbors.Add(Clone(neighbor, dict));
+            }
+        }
+        
+        return dict[node];
+    }
 }
