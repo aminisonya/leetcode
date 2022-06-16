@@ -1,30 +1,39 @@
 public class Solution {
     public int[] ProductExceptSelf(int[] nums) {
-        var length = nums.Length;
-        var left = new int[length];
-        var right = new int[length];
-        var answer = new int[length];
+        // Iterate thru array 3 separate times.
+        // Going forward and going backwards. Create two arrays of forward and backwards values of products of nums so far
+        // Third time, multiple the values from those two arrays for the answer array.
+        // O(3n) which is O(n) time. O(2n) space for the two arrays.
         
-        // Set up left side products
-        left[0] = 1;
-        for (var i = 1; i < length; i++)
+        var forward = new int[nums.Length];
+        var backward = new int[nums.Length];
+        var result = new int[nums.Length];
+        
+        for (var i = 0; i < nums.Length; i++)
         {
-            left[i] = nums[i - 1] * left[i - 1];
+            if (i == 0)
+            {
+                forward[i] = 1;
+                continue;
+            }
+            forward[i] = forward[i - 1] * nums[i - 1];
         }
         
-        // Set up right side products, going in reverse
-        right[length - 1] = 1;
-        for (var i = length - 2; i >= 0; i--)
+        for (var i = nums.Length - 1; i >= 0; i--)
         {
-            right[i] = nums[i + 1] * right[i + 1];
+            if (i == nums.Length - 1)
+            {
+                backward[i] = 1;
+                continue;
+            }
+            backward[i] = nums[i + 1] * backward[i + 1];
         }
         
-        // Fill out answer array based on left and right side values
-        for (var i = 0; i < length; i++)
+        for (var i = 0; i < nums.Length; i++)
         {
-            answer[i] = left[i] * right[i];
+            result[i] = forward[i] * backward[i];
         }
         
-        return answer;
+        return result;
     }
 }
