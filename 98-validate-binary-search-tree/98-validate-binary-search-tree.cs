@@ -13,25 +13,24 @@
  */
 public class Solution {
     public bool IsValidBST(TreeNode root) {
-        return Validate(root, null, null);
+        // DFS + Recursion
+        // Keep track of min and max range, compare each node value to that
+        
+        return IsValid(root, null, null);
     }
     
-    public bool Validate(TreeNode root, int? low, int? high)
+    private bool IsValid(TreeNode node, int? min, int? max)
     {
-        // Empty trees are valid BSTs
-        if (root == null)
+        if (node == null)
         {
             return true;
         }
         
-        // The current nodes value must be between low and high
-        if ((low != null && root.val <= low) || (high != null && root.val >= high))
+        if (min != null && node.val <= min || max != null && node.val >= max)
         {
             return false;
         }
         
-        // The left and right subtree must also be valid
-        return Validate(root.left, low, root.val)
-            && Validate(root.right, root.val, high);
+        return IsValid(node.left, min, node.val) && IsValid(node.right, node.val, max);
     }
 }
