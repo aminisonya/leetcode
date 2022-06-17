@@ -1,24 +1,17 @@
 public class Solution {
     public int OrangesRotting(int[][] grid) {
-        // Traverse the whole grid, add rotten oranges to queue and keep count of fresh oranges
-        // Go thru queue of rotten oranges, for each rotten orange traverse in all 4 directions
-        // If see fresh orange, change to rotten orange, and add to queue, and decrement count of fresh oranges
-        // Return number of times queue was traversed until empty (number of mins for all oranges to go rotten)
+        // Graph + BFS + Queue
+        // Keep track of minutes (levels of queue needed to iterate thru)
+        // Count number of fresh oranges at beginning, make sure it's 0 at the end otherwise return -1
         
-        if (grid == null || grid.Length == 0)
+        var queue = new Queue<(int, int)>();
+        var fresh = 0;
+        var mins = 0;
+        
+        // Initiate count of fresh oranges and enqueue all rotten oranges
+        for (var i = 0; i < grid.Length; i++)
         {
-            return 0;
-        }
-        
-        var rows = grid.Length;
-        var cols = grid[0].Length;
-        var queue = new Queue<(int, int)>(); // Queue of Tuples with row and col indexes for each rotten orange
-        var freshOranges = 0;
-        
-        // Traverse grid, enqueue all rotten oranges and keep count of fresh oranges
-        for (var i = 0; i < rows; i++)
-        {
-            for (var j = 0; j < cols; j++)
+            for (var j = 0; j < grid[0].Length; j++)
             {
                 if (grid[i][j] == 2)
                 {
@@ -26,56 +19,43 @@ public class Solution {
                 }
                 else if (grid[i][j] == 1)
                 {
-                    freshOranges++;
+                    fresh++;
                 }
             }
         }
         
-        // If there were no fresh oranges, simply return 0
-        if (freshOranges == 0)
-        {
-            return 0;
-        }
+        if (fresh == 0) return 0;
         
-        var mins = 0;
-        // Rows and cols arrays to traverse all 4 directions from each cell
-        var drows = new int[] {1, -1, 0, 0};
-        var dcols = new int[] {0, 0, 1, -1};
+        var rows = new int[] { 0, 1, 0, -1};
+        var cols = new int[] { 1, 0, -1, 0};
         
-        // Loop thru queue
         while (queue.Count > 0)
         {
-            // Keep track of "minutes"/each traversal to new row/col
-            mins++;
             var size = queue.Count;
             
-            // For every item currently in queue... (For every item in this level of BFS)
             for (var i = 0; i < size; i++)
             {
-                var pair = queue.Dequeue();
+                var curr = queue.Dequeue();
                 
-                for (var j = 0; j < 4; j++)
+                for (var d = 0; d < 4; d++)
                 {
-                    // Get next row/col vals
-                    var r = pair.Item1 + drows[j];
-                    var c = pair.Item2 + dcols[j];
+                    var r = curr.Item1 + rows[d];
+                    var c = curr.Item2 + cols[d];
                     
-                    // Make sure we're not out of bounds
-                    // Also, continue if not a fresh orange (do nothing if empty or rotten orange)
-                    if (r < 0 || c < 0 || r >= rows || c >= cols || grid[r][c] == 0 || grid[r][c] == 2)
+                    if (r >= 0 && c >= 0 && r < grid.Length && c < grid[0].Length
+                       && grid[r][c] == 1)
                     {
-                        continue;
+                        grid[r][c] = 2;
+                        fresh--;
+                        queue.Enqueue((r, c));
                     }
-                    
-                    // Change to rotten orange value, add new rotten orange to queue
-                    grid[r][c] = 2;
-                    queue.Enqueue((r,c));
-                    freshOranges--; // Decrement count of fresh oranges
                 }
             }
+            
+            mins++;
         }
         
         // Subtract from mins, as last loop will add 1 unnecessarily 
-        return freshOranges == 0 ? mins - 1 : -1;
+        return fresh == 0 ? mins - 1 : -1;
     }
 }
