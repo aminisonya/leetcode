@@ -1,37 +1,50 @@
-public class Solution {    
+public class Solution {
     public IList<IList<int>> Permute(int[] nums) {
-        // Backtracking for all combinations of ints in nums array
-        var result = new List<IList<int>>();
+        // Backtracking
+        // Try each permutation for each num
+        // Current num will be the starting point, backtrack from there
+        // Swap current num in iteration with first num
         
+        // Convert array to list
         var numsList = new List<int>();
         for (var i = 0; i < nums.Length; i++)
         {
             numsList.Add(nums[i]);
         }
         
-        var n = nums.Length;
-        Backtrack(n, numsList, result, 0);
+        var length = nums.Length;
+        var result = new List<IList<int>>();
+        
+        // Backtracking method
+        Backtrack(numsList, result, 0, length);
         
         return result;
     }
     
-    public void Backtrack(int n, List<int> nums, List<IList<int>> result, int first)
+    private void Backtrack(List<int> nums, List<IList<int>> result, int start, int length)
     {
-        if (first == n)
+        // Base case
+        // We've found all permutations for this starting point
+        if (start == length)
         {
             result.Add(new List<int>(nums));
+            return;
         }
         
-        for (var i = first; i < n; i++)
+        // Iterate thru list and find all permutations for starting point
+        for (var i = start; i < length; i++)
         {
-            var temp = nums[first];
-            nums[first] = nums[i];
+            // Swap starting num with current iteration num
+            var temp = nums[start];
+            nums[start] = nums[i];
             nums[i] = temp;
             
-            Backtrack(n, nums, result, first + 1);
+            // Backtrack
+            Backtrack(nums, result, start + 1, length);
             
-            var temp2 = nums[first];
-            nums[first] = nums[i];
+            // Swap back to backtrack
+            var temp2 = nums[start];
+            nums[start] = nums[i];
             nums[i] = temp2;
         }
     }
