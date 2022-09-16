@@ -1,37 +1,36 @@
 public class Solution {
     public bool IsValid(string s) {
-        // Use a Stack
-        // If else chain statements
-        // Add open brackets to stack
-        // when see a close bracket check stack for matching open bracket, pop it off stack or return false
+        // Add open brackets to a Stack
+        // When we see a closing bracket, we peek from the Stack and see if it's matching
+        // If it's a match, we pop off the stack. If it's not a match, we return false.
+        // When done iterating thru the string, if stack is empty we can return true.
         
         var stack = new Stack<char>();
         
         for (var i = 0; i < s.Length; i++)
         {
-            if (s[i] == '(' || s[i] == '{' || s[i] == '[')
-            {
+            if (s[i] == '(') {
                 stack.Push(s[i]);
-            }
-            else
-            {
-                if (stack.Count <= 0)
-                {
+            } else if (s[i] == '[') {
+                stack.Push(s[i]);
+            } else if (s[i] == '{') {
+                stack.Push(s[i]);
+            } else if (s[i] == ')') {
+                if (stack.Count > 0 && stack.Peek() == '(') {
+                    stack.Pop();
+                } else {
                     return false;
                 }
-                
-                var curr = stack.Pop();
-                
-                if (s[i] == ')' && curr != '(')
-                {
+            } else if (s[i] == ']') {
+                if (stack.Count > 0 && stack.Peek() == '[') {
+                    stack.Pop();
+                } else {
                     return false;
                 }
-                else if (s[i] == '}' && curr != '{')
-                {
-                    return false;
-                }
-                else if (s[i] == ']' && curr != '[')
-                {
+            } else if (s[i] == '}') {
+                if (stack.Count > 0 && stack.Peek() == '{') {
+                    stack.Pop();
+                } else {
                     return false;
                 }
             }
