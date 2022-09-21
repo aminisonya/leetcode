@@ -1,28 +1,25 @@
 public class Solution {
     public bool IsPalindrome(string s) {
-        // iterate inwards from outter ends
-        // skip non-alphanumeric chars and spaces
-        // how to compare uppercase and lowercase letters???
-        // return false if find a mismatch
+        // two pointers
+        // traverse invwards from outer ends of string
+        // compare each char that is a letter or digit
         
         var left = 0;
         var right = s.Length - 1;
+        var lowerS = s.ToLower();
         
         while (left < right)
         {
-            while (left < right && !Char.IsLetterOrDigit(s[left]))
-            {
+            if (!Char.IsLetterOrDigit(lowerS[left])) {
                 left++;
-            }
-            
-            while (right > left && !Char.IsLetterOrDigit(s[right]))
-            {
+                continue;
+            } else if (!Char.IsLetterOrDigit(lowerS[right])) {
                 right--;
-            }
-            
-            if (Char.ToLower(s[left]) != Char.ToLower(s[right]))
-            {
-                return false;
+                continue;
+            } else {
+                if (lowerS[left] != lowerS[right]) {
+                    return false;
+                }
             }
             
             left++;
